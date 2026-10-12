@@ -1,280 +1,291 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منظومة برو أكاديمي | Pro Academy</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    
-    <!-- إعداد ألوان الهوية البصرية الخاصة بالشعار -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        proBlue: '#2A4356', // لون الكاب والجزء الأيسر من الشعار
-                        proGreen: '#739B81', // لون السهم والجزء الأيمن
-                        proGold: '#C5A059' // لون الكتاب المفتوح
-                    },
-                    fontFamily: {
-                        sans: ['Tajawal', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-
-    <style>
-        body { font-family: 'Tajawal', sans-serif; background-color: #f3f4f6; }
-        /* إعدادات الطباعة للفاتورة فقط */
-        @media print {
-            body * { visibility: hidden; }
-            #receipt-section, #receipt-section * { visibility: visible; }
-            #receipt-section { 
-                position: absolute; 
-                left: 50%; 
-                top: 20px; 
-                transform: translateX(-50%);
-                width: 90%; 
-                max-width: 600px;
-                border: 2px solid #2A4356;
-                padding: 30px;
-                background: white;
-            }
-            .no-print { display: none !important; }
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pro Academy | إدارة المركز</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--bg:#f5f6fa;--card:#fff;--tx:#1b2333;--mu:#6b7488;--pr:#1f5eff;--bd:#e2e5ee;--ok:#12805c;--bad:#c2362b;--warn:#a86400}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f131b;--card:#181d28;--tx:#e8ebf2;--mu:#8f99ad;--pr:#6c93ff;--bd:#2a3140;--ok:#3ecf9b;--bad:#ff7b70;--warn:#f0b24a}}
+:root[data-theme="dark"]{--bg:#0f131b;--card:#181d28;--tx:#e8ebf2;--mu:#8f99ad;--pr:#6c93ff;--bd:#2a3140;--ok:#3ecf9b;--bad:#ff7b70;--warn:#f0b24a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:"Segoe UI",Tahoma,"Noto Sans Arabic",Arial,sans-serif;font-size:15px;line-height:1.6}
+header{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:14px 16px;background:linear-gradient(135deg,#0f3fd9,#7a3cff);color:#fff;box-shadow:0 4px 18px #1f5eff44}header button{background:#ffffff26;color:#fff;border-color:#ffffff55}
+header b{font-size:19px}header small{color:#ffffffcc}
+nav{display:flex;gap:6px;overflow-x:auto;padding:10px 14px}
+nav button{white-space:nowrap}
+main{padding:0 14px 40px;max-width:900px;margin:auto}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:12px;margin:10px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.stat{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font-size:20px}.stat span{color:var(--mu);font-size:13px}
+input,select{width:100%;padding:9px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);font:inherit;margin:3px 0 8px}
+label{font-size:13px;color:var(--mu)}
+button{font:inherit;padding:8px 13px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--tx);cursor:pointer}
+button.p,nav button.on{background:var(--pr);color:#fff;border-color:var(--pr)}
+button.d{color:var(--bad)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.acts{display:flex;gap:6px;flex-wrap:wrap}
+.tag{font-size:12px;padding:2px 8px;border-radius:99px;border:1px solid var(--bd)}
+.ok{color:var(--ok)}.bad{color:var(--bad)}.warn{color:var(--warn)}.mu{color:var(--mu)}
+.msg{background:var(--card);border:1px solid var(--warn);color:var(--warn);border-radius:10px;padding:8px 12px;margin:10px 0}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:420px}th,td{padding:7px;border-bottom:1px solid var(--bd);text-align:right}
+@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes toast{0%{opacity:0;transform:translate(-50%,12px)}8%,85%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,12px);visibility:hidden}}
+main>*{animation:up .3s ease both}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg)}
+nav button{border-radius:99px;padding:8px 15px}
+nav button.on{box-shadow:0 4px 12px #1f5eff55;transform:translateY(-1px)}
+button{transition:transform .12s,box-shadow .12s,background .12s;font-weight:600}
+button:hover{transform:translateY(-1px);box-shadow:0 4px 12px #0002}
+button:active{transform:scale(.96)}
+button.p,nav button.on{background:linear-gradient(135deg,#1f5eff,#5b7dff)}
+button.p{box-shadow:0 3px 10px #1f5eff44}
+button.d:hover{background:#c2362b18}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--pr);box-shadow:0 0 0 3px #1f5eff26}
+.card{transition:.15s;border-inline-start:4px solid var(--pr)}
+.card:hover{box-shadow:0 6px 18px #0001;transform:translateY(-1px)}
+.stat{border-top:4px solid var(--c,#1f5eff);transition:.15s}.stat:hover{transform:translateY(-2px);box-shadow:0 6px 16px #0001}
+.stat::before{display:block;font-size:24px}.stat b{font-size:22px}
+.grid .stat:nth-child(1){--c:#1f5eff}.grid .stat:nth-child(1)::before{content:"👥"}
+.grid .stat:nth-child(2){--c:#7a3cff}.grid .stat:nth-child(2)::before{content:"📚"}
+.grid .stat:nth-child(3){--c:#12805c}.grid .stat:nth-child(3)::before{content:"💰"}
+.grid .stat:nth-child(4){--c:#c2362b}.grid .stat:nth-child(4)::before{content:"⏳"}
+.grid .stat:nth-child(5){--c:#a86400}.grid .stat:nth-child(5)::before{content:"🧾"}
+.grid .stat:nth-child(6){--c:#0d8a9e}.grid .stat:nth-child(6)::before{content:"📈"}
+.tag{padding:3px 10px;font-weight:600}.tag.ok{background:#12805c22;border-color:transparent}.tag.warn{background:#a8640022;border-color:transparent}
+.hero{display:flex;justify-content:space-between;align-items:center;gap:12px;background:linear-gradient(135deg,#0f3fd9,#7a3cff);color:#fff;border-radius:16px;padding:16px;margin:10px 0}
+.hero h2{margin:0;font-size:20px}.hero p{margin:4px 0 0;opacity:.85}
+.ring{width:84px;height:84px;border-radius:50%;background:conic-gradient(#fff calc(var(--p)*1%),#ffffff33 0);display:grid;place-items:center;position:relative;flex:none}
+.ring::before{content:"";position:absolute;inset:8px;border-radius:50%;background:#3a2fd0}
+.ring span{position:relative;font-weight:700}
+.msg{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:20;background:#1b2333;color:#fff;border:0;border-radius:99px;padding:10px 20px;box-shadow:0 8px 24px #0005;animation:toast 3.6s ease both;max-width:92vw}
+button[data-act="saveT"]::before,button[data-act="saveC"]::before,button[data-act="addExp"]::before{content:"✚ "}
+button[data-act="pay"]::before,button[data-act="tpay"]::before{content:"💵 "}
+button[data-act="rcpt"]::before{content:"🧾 "}
+button[data-act="edit"]::before{content:"✏️ "}
+button[data-act="del"]::before{content:"🗑 "}
+button[data-act="acc"]::before{content:"✔ "}
+button[data-act="imp"]::before{content:"⬇ "}
+button[data-act="backup"]::before{content:"💾 "}
+button[data-act="prom"]::before{content:"⬆ "}
+button[data-act="unpay"]::before,button[data-act="tun"]::before{content:"↩ "}
+</style>
 </head>
-<body class="text-gray-800">
+<body>
+<header><div><b>🎓 Pro Academy</b><br><small id="who"></small></div><div class="acts"><button id="exp" style="display:none">تصدير CSV</button><button id="out" style="display:none">خروج</button></div></header>
+<nav id="nav"></nav>
+<main id="app"><div class="card mu">جاري التحميل…</div></main>
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {getFirestore,collection,doc,addDoc,setDoc,updateDoc,deleteDoc,onSnapshot} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
-    <div class="flex h-screen overflow-hidden">
-        
-        <!-- القائمة الجانبية (Sidebar) -->
-        <aside class="w-64 bg-proBlue text-white flex flex-col hidden md:flex shadow-2xl">
-            <div class="h-20 flex items-center justify-center border-b border-gray-600 p-4 bg-white">
-                <!-- مكان الشعار -->
-                <img src="logo.png" alt="Pro Academy" class="h-16 object-contain" onerror="this.outerHTML='<h1 class=\'text-2xl font-bold text-proBlue\'>PRO ACADEMY</h1>'">
-            </div>
-            
-            <nav class="flex-1 px-4 py-6 space-y-2">
-                <a href="#" class="flex items-center px-4 py-3 bg-proGreen bg-opacity-30 text-white rounded-lg border-r-4 border-proGold font-bold">
-                    <i class="fas fa-home ml-3 w-5"></i> لوحة القيادة
-                </a>
-                <a href="#" class="flex items-center px-4 py-3 text-gray-300 hover:bg-proBlue hover:text-white rounded-lg transition-colors">
-                    <i class="fas fa-users ml-3 w-5"></i> المتدربين
-                </a>
-                <a href="#" class="flex items-center px-4 py-3 text-gray-300 hover:bg-proBlue hover:text-white rounded-lg transition-colors">
-                    <i class="fas fa-book ml-3 w-5"></i> الدورات
-                </a>
-                <a href="#" class="flex items-center px-4 py-3 text-gray-300 hover:bg-proBlue hover:text-white rounded-lg transition-colors">
-                    <i class="fas fa-file-invoice-dollar ml-3 w-5"></i> المالية
-                </a>
-            </nav>
-            <div class="p-4 text-xs text-center text-gray-400 border-t border-gray-700">
-                إصدار 1.0.0
-            </div>
-        </aside>
+/* ===== إعدادات Firebase: عدّلها حسب ملف SETUP.md ===== */
+const firebaseConfig={
+  apiKey:"ضع_apiKey_هنا",
+  authDomain:"ضع_authDomain_هنا",
+  projectId:"ضع_projectId_هنا",
+  appId:"ضع_appId_هنا"
+};
+const MANAGER_EMAIL="ضع_ايميل_المدير_هنا"; /* بأحرف صغيرة، ونفس الإيميل في قواعد Firestore */
+/* ======================================================= */
 
-        <!-- المحتوى الرئيسي (Main Content) -->
-        <main class="flex-1 flex flex-col h-screen overflow-y-auto">
-            
-            <!-- الشريط العلوي -->
-            <header class="h-20 bg-white shadow-sm flex items-center justify-between px-8 z-10">
-                <h2 class="text-2xl font-bold text-proBlue">مرحباً بك في لوحة التحكم</h2>
-                <div class="flex items-center gap-4">
-                    <button class="text-gray-500 hover:text-proGold"><i class="fas fa-bell text-xl"></i></button>
-                    <div class="w-10 h-10 rounded-full bg-proGold flex items-center justify-center text-white font-bold">
-                        أ
-                    </div>
-                </div>
-            </header>
+let app=null,auth=null,fs=null;
+const P=p=>p.split('/');
+const db={
+  collection:p=>({add:d=>addDoc(collection(fs,p),d),onSnapshot:(n,e)=>onSnapshot(collection(fs,p),sn=>n({docs:sn.docs.map(d=>({id:d.id,data:()=>d.data()}))}),e)}),
+  doc:p=>({set:d=>setDoc(doc(fs,...P(p)),d),update:d=>updateDoc(doc(fs,...P(p)),d),delete:()=>deleteDoc(doc(fs,...P(p)))})
+};
+const dl={save:({filename,data})=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data],{type:'text/plain;charset=utf-8'}));a.download=filename;document.body.appendChild(a);a.click();a.remove();return Promise.resolve()}};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num=n=>Number(n||0).toLocaleString('en-US');
+const ROLE={manager:'مدير',secretary:'سكرتارية',accountant:'محاسب'};
+const TABS={manager:['dash','trainees','req','courses','pay','trainers','exp','staff'],secretary:['trainees','req','courses'],accountant:['dash','pay','trainers','exp']};
+const TL={dash:'التقارير',trainees:'المتدربون',req:'طلبات التسجيل',courses:'الدورات والجدولة',pay:'المدفوعات',trainers:'المدربون',exp:'المصاريف',staff:'الموظفون والنسخ'};
+const S={courses:[],trainees:[],requests:[],expenses:[],roles:{},join:{},names:{},id:null,name:'',role:null,tab:'',q:'',edit:null,del:null,msg:'',filter:'all',err:''};
+let form={};
 
-            <!-- منطقة المحتوى -->
-            <div class="p-8">
-                
-                <!-- بطاقات الإحصائيات -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div class="bg-white rounded-xl shadow-sm p-6 border-b-4 border-proBlue flex items-center justify-between">
-                        <div>
-                            <p class="text-sm text-gray-500 mb-1">إجمالي المتدربين</p>
-                            <h3 class="text-3xl font-bold text-proBlue">124</h3>
-                        </div>
-                        <div class="w-12 h-12 bg-blue-100 text-proBlue rounded-full flex items-center justify-center text-xl">
-                            <i class="fas fa-user-graduate"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-xl shadow-sm p-6 border-b-4 border-proGreen flex items-center justify-between">
-                        <div>
-                            <p class="text-sm text-gray-500 mb-1">الدورات النشطة</p>
-                            <h3 class="text-3xl font-bold text-proGreen">5</h3>
-                        </div>
-                        <div class="w-12 h-12 bg-green-100 text-proGreen rounded-full flex items-center justify-center text-xl">
-                            <i class="fas fa-chalkboard-teacher"></i>
-                        </div>
-                    </div>
+function bind(path,key){
+  db.collection(path).onSnapshot(s=>{
+    if(key==='roles'||key==='join'){S[key]={};s.docs.forEach(d=>S[key][d.id]=d.data())}
+    else S[key]=s.docs.map(d=>({id:d.id,...d.data()}));
+    if(key==='join')resolveNames();
+    render();
+  },e=>{S.err='تعذر تحميل البيانات ('+path+')';render()});
+}
+async function resolveNames(){
+  if(!user)return;
+  const ids=Object.keys(S.join);if(!ids.length)return;
+  try{const p=await user.profiles(ids);ids.forEach(i=>S.names[i]=(p[i]&&p[i].name)||'');render()}catch(e){}
+}
+function computeRole(){S.role=S.owner?'manager':(S.myrole||null)}
+function showLogin(){
+  $('#nav').innerHTML='';$('#out').style.display='none';$('#exp').style.display='none';
+  $('#app').innerHTML=`<div class="card" style="max-width:380px;margin:30px auto"><h3 style="margin-top:0">🔐 تسجيل الدخول</h3><label>الإيميل</label><input id="l_e" type="email" dir="ltr" autocomplete="username"><label>كلمة السر</label><input id="l_p" type="password" dir="ltr" autocomplete="current-password"><button class="p" data-act="login" style="width:100%">دخول</button><p id="l_m" class="bad"></p></div>`;
+}
+function init(){
+  if(firebaseConfig.apiKey.startsWith('ضع')){$('#app').innerHTML='<div class="card warn"><b>لم يتم ضبط Firebase بعد.</b><p>افتح ملف index.html وضع بيانات مشروعك في أعلى السكربت (راجع SETUP.md).</p></div>';return}
+  app=initializeApp(firebaseConfig);auth=getAuth(app);fs=getFirestore(app);
+  onAuthStateChanged(auth,u=>{
+    if(!u){S.role=null;S.myrole=null;showLogin();return}
+    const em=(u.email||'').toLowerCase();
+    S.id=em;S.name=em;S.owner=em===MANAGER_EMAIL.toLowerCase();
+    $('#out').style.display='';
+    let bound=false;
+    const go=()=>{if(bound)return;bound=true;bind('courses','courses');bind('trainees','trainees');bind('requests','requests');bind('expenses','expenses');if(S.owner)bind('roles','roles')};
+    if(S.owner)go();
+    else onSnapshot(doc(fs,'roles',em),sn=>{S.myrole=sn.exists()?sn.data().role:null;if(S.myrole)go();render()},()=>{S.myrole=null;render()});
+    render();
+  });
+}
+const cname=id=>(S.courses.find(c=>c.id===id)||{}).name||'—';
+const cfee=id=>Number((S.courses.find(c=>c.id===id)||{}).fee||0);
+const can=t=>(TABS[S.role]||[]).includes(t);
 
-                    <div class="bg-white rounded-xl shadow-sm p-6 border-b-4 border-proGold flex items-center justify-between">
-                        <div>
-                            <p class="text-sm text-gray-500 mb-1">طلبات التسجيل الجديدة</p>
-                            <h3 class="text-3xl font-bold text-proGold">12</h3>
-                        </div>
-                        <div class="w-12 h-12 bg-yellow-100 text-proGold rounded-full flex items-center justify-center text-xl">
-                            <i class="fas fa-clipboard-list"></i>
-                        </div>
-                    </div>
-                </div>
+function render(){
+  computeRole();
+  $('#who').textContent=(S.name||'')+(S.role?' · '+ROLE[S.role]:'');
+  const app=$('#app'),nav=$('#nav');
+  if(S.err){app.innerHTML='<div class="card bad">'+esc(S.err)+'</div>';return}
+  if(!S.role){nav.innerHTML='';$('#exp').style.display='none';
+    app.innerHTML='<div class="card"><b>حسابك غير مفعّل بعد</b><p class="mu">سجلت الدخول بنجاح، لكن المدير لم يحدد دورك. تواصل معه ليضيف إيميلك في قسم الموظفين، ثم حدّث الصفحة.</p></div>';return}
+  const tabs=TABS[S.role];if(!tabs.includes(S.tab))S.tab=tabs[0];
+  nav.innerHTML=tabs.map(t=>`<button data-tab="${t}" class="${S.tab===t?'on':''}">${({dash:'📊',trainees:'👥',req:'📥',courses:'📅',pay:'💰',trainers:'🧑‍🏫',exp:'🧾',staff:'⚙️'})[t]} ${TL[t]}</button>`).join('');
+  $('#exp').style.display=(dl&&can('trainees')||dl&&can('pay'))?'':'none';
+  const m=S.msg?`<div class="msg">${esc(S.msg)}</div>`:'';
+  if(S.msg){clearTimeout(render.t);render.t=setTimeout(()=>{S.msg=''},3600)}
+  app.innerHTML=m+({dash:vDash,trainees:vTrainees,req:vReq,courses:vCourses,pay:vPay,trainers:vTrainers,exp:vExp,staff:vStaff}[S.tab])();
+}
 
-                <!-- جدول التسجيلات -->
-                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-                        <h3 class="text-lg font-bold text-proBlue"><i class="fas fa-table ml-2"></i>أحدث المسجلين (من نماذج جوجل)</h3>
-                        <button onclick="fetchData()" class="text-proGreen hover:text-proBlue text-sm font-bold flex items-center gap-2">
-                            <i class="fas fa-sync-alt"></i> تحديث البيانات
-                        </button>
-                    </div>
-                    
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-right">
-                            <thead class="bg-gray-100 text-gray-600">
-                                <tr>
-                                    <th class="p-4 font-bold border-b">الاسم الثلاثي</th>
-                                    <th class="p-4 font-bold border-b">رقم الهاتف</th>
-                                    <th class="p-4 font-bold border-b">الدورة المطلوبة</th>
-                                    <th class="p-4 font-bold border-b">حالة الدفع</th>
-                                    <th class="p-4 font-bold border-b text-center">الإجراءات</th>
-                                </tr>
-                            </thead>
-                            <tbody id="students-table-body" class="divide-y divide-gray-100">
-                                <!-- سيتم تعبئة البيانات هنا -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+function vDash(){
+  const paid=S.trainees.filter(t=>t.paid),sum=paid.reduce((a,t)=>a+Number(t.amount||0),0);
+  const due=S.trainees.filter(t=>!t.paid&&!t.wait).reduce((a,t)=>a+net(t),0),exp=S.expenses.reduce((a,x)=>a+Number(x.amount||0),0),tpd=S.courses.filter(c=>c.tpaid).reduce((a,c)=>a+Number(c.tpay||0),0),pc=(sum+due)?Math.round(sum/(sum+due)*100):0;
+  const rows=S.courses.map(c=>{const ts=S.trainees.filter(t=>t.courseId===c.id),pd=ts.filter(t=>t.paid);
+    return `<tr><td>${esc(c.name)}</td><td>${ts.length}</td><td class="ok">${num(pd.reduce((a,t)=>a+Number(t.amount||0),0))}</td><td class="bad">${num(ts.filter(t=>!t.paid&&!t.wait).reduce((a,t)=>a+net(t),0))}</td></tr>`}).join('');
+  return `<div class="hero"><div><h2>أهلاً ${esc(S.name||'')} 👋</h2><p>${ROLE[S.role]} · ${new Date().toLocaleDateString('ar-LY',{weekday:'long',day:'numeric',month:'long'})}</p><p>نسبة تحصيل الرسوم</p></div><div class="ring" style="--p:${pc}"><span>${pc}%</span></div></div><div class="grid"><div class="stat"><b>${S.trainees.length}</b><span>متدرب</span></div><div class="stat"><b>${S.courses.length}</b><span>دورة</span></div><div class="stat"><b class="ok">${num(sum)}</b><span>المحصّل (د.ل)</span></div><div class="stat"><b class="bad">${num(due)}</b><span>المتبقي (د.ل)</span></div><div class="stat"><b>${num(exp)}</b><span>مصاريف المركز</span></div><div class="stat"><b>${num(sum-exp-tpd)}</b><span>الصافي بعد المصاريف وأجور المدربين</span></div></div>${alerts()}
+  <div class="card scroll"><table><tr><th>الدورة</th><th>المتدربون</th><th>المحصّل</th><th>المتبقي</th></tr>${rows||'<tr><td colspan="4" class="mu">لا توجد دورات بعد</td></tr>'}</table></div>`;
+}
 
-            </div>
-        </main>
-    </div>
+function vTrainees(){
+  const e=S.edit&&S.tab==='trainees'?S.trainees.find(t=>t.id===S.edit):null;
+  const f=e||form;
+  const opts=S.courses.map(c=>`<option value="${c.id}" ${f.courseId===c.id?'selected':''}>${esc(c.name)}</option>`).join('');
+  const q=S.q.trim();
+  const list=S.trainees.filter(t=>!q||(t.name+' '+t.phone).includes(q)).sort((a,b)=>(b.at||0)-(a.at||0)).map(t=>`<div class="card"><div class="row"><div><b>${esc(t.name)}</b> ${t.wait?'<span class="tag warn">قائمة انتظار</span>':`<span class="tag ${t.paid?'ok':'warn'}">${t.paid?'مدفوع':'غير مدفوع'}</span>`}<br><span class="mu">${esc(t.phone)} · ${esc(t.work)}<br>${esc(cname(t.courseId))}</span></div><div class="acts">${t.wait?`<button class="p" data-act="prom" data-id="${t.id}">تفعيل</button>`:''}<button data-act="edit" data-id="${t.id}">تعديل</button><button class="d" data-act="del" data-id="${t.id}">${S.del===t.id?'تأكيد الحذف':'حذف'}</button></div></div></div>`).join('');
+  return `<div class="card"><b>${e?'تعديل متدرب':'تسجيل متدرب'}</b>
+  <label>الاسم</label><input id="f_name" value="${esc(f.name)}">
+  <div class="two"><div><label>الهاتف</label><input id="f_phone" inputmode="tel" value="${esc(f.phone)}"></div><div><label>المؤهل / العمل</label><input id="f_work" value="${esc(f.work)}"></div></div>
+  <label>خصم (د.ل)</label><input id="f_disc" type="number" inputmode="decimal" value="${esc(f.disc)}"><label>الدورة</label><select id="f_course"><option value="">اختر دورة</option>${opts}</select>
+  <div class="acts"><button class="p" data-act="saveT">${e?'حفظ التعديل':'تسجيل'}</button>${e?'<button data-act="cancel">إلغاء</button>':''}</div></div>
+  <input id="q" placeholder="بحث بالاسم أو الهاتف" value="${esc(S.q)}">${list||'<div class="card mu">لا يوجد متدربون</div>'}`;
+}
 
-    <!-- نموذج الفاتورة المخفي (يظهر عند الطباعة فقط) -->
-    <div id="receipt-section" class="hidden font-sans">
-        <div class="text-center border-b-2 border-proGold pb-4 mb-6">
-            <h1 class="text-3xl font-bold text-proBlue mb-1">PRO ACADEMY</h1>
-            <h2 class="text-lg text-proGreen font-bold tracking-widest">للتدريب والتطوير</h2>
-        </div>
-        
-        <div class="flex justify-between mb-8 text-sm">
-            <div><span class="font-bold">رقم الإيصال:</span> #<span id="r-number"></span></div>
-            <div><span class="font-bold">التاريخ:</span> <span id="r-date"></span></div>
-        </div>
+function vCourses(){
+  const e=S.edit&&S.tab==='courses'?S.courses.find(t=>t.id===S.edit):null;
+  const f=e||form;
+  const list=S.courses.map(c=>`<div class="card"><div class="row"><div><b>${esc(c.name)}</b> <span class="tag">${num(c.fee)} د.ل</span><br><span class="mu">القاعة: ${esc(c.hall||'—')} · المدرب: ${esc(c.trainer||'—')}<br>${esc(c.start||'')} → ${esc(c.end||'')} · ${esc(c.from||'')}–${esc(c.to||'')}<br>المسجلون: ${cnt(c.id)}${c.seats?' / '+c.seats:''}${wc(c.id)?' · انتظار: '+wc(c.id):''}</span></div><div class="acts"><button data-act="edit" data-id="${c.id}">تعديل</button><button class="d" data-act="del" data-id="${c.id}">${S.del===c.id?'تأكيد الحذف':'حذف'}</button></div></div></div>`).join('');
+  return `<div class="card"><b>${e?'تعديل دورة':'إضافة دورة'}</b>
+  <label>اسم الدورة</label><input id="c_name" value="${esc(f.name)}">
+  <div class="two"><div><label>الرسوم (د.ل)</label><input id="c_fee" type="number" inputmode="decimal" value="${esc(f.fee)}"></div><div><label>القاعة</label><input id="c_hall" value="${esc(f.hall)}"></div></div>
+  <div class="two"><div><label>المدرب</label><input id="c_trainer" value="${esc(f.trainer)}"></div><div><label>أجر المدرب (د.ل)</label><input id="c_tpay" type="number" inputmode="decimal" value="${esc(f.tpay)}"></div></div><label>عدد المقاعد (0 = بدون سقف)</label><input id="c_seats" type="number" inputmode="numeric" value="${esc(f.seats)}">
+  <div class="two"><div><label>من تاريخ</label><input id="c_start" type="date" value="${esc(f.start)}"></div><div><label>إلى تاريخ</label><input id="c_end" type="date" value="${esc(f.end)}"></div></div>
+  <div class="two"><div><label>من الساعة</label><input id="c_from" type="time" value="${esc(f.from)}"></div><div><label>إلى الساعة</label><input id="c_to" type="time" value="${esc(f.to)}"></div></div>
+  <div class="acts"><button class="p" data-act="saveC">${e?'حفظ التعديل':'إضافة'}</button>${e?'<button data-act="cancel">إلغاء</button>':''}</div></div>${list||'<div class="card mu">لا توجد دورات</div>'}`;
+}
 
-        <h3 class="text-2xl font-bold mb-6 text-center text-gray-800 bg-gray-100 py-2">سند قبض</h3>
-        
-        <div class="space-y-4 text-lg leading-relaxed">
-            <p><span class="font-bold text-proBlue">استلمنا من السيد/ة: </span> <span id="r-name" class="border-b border-dotted border-gray-400 pb-1 px-4 min-w-[200px] inline-block"></span></p>
-            <p><span class="font-bold text-proBlue">مبلغ وقدره: </span> <input type="text" placeholder="اكتب المبلغ..." class="border-b border-dotted border-gray-400 pb-1 px-4 min-w-[200px] outline-none text-lg"></p>
-            <p><span class="font-bold text-proBlue">وذلك عن دورة: </span> <span id="r-course" class="border-b border-dotted border-gray-400 pb-1 px-4 min-w-[200px] inline-block"></span></p>
-        </div>
-        
-        <div class="mt-16 flex justify-between text-lg font-bold border-t border-gray-200 pt-6">
-            <div class="text-center">
-                <p class="mb-8">توقيع المستلم</p>
-                <p>.......................</p>
-            </div>
-            <div class="text-center">
-                <p class="mb-8">الختم</p>
-                <p>.......................</p>
-            </div>
-        </div>
-    </div>
+function vPay(){
+  const fl=S.filter;
+  const list=S.trainees.filter(t=>!t.wait&&(fl==='all'||(fl==='paid')===!!t.paid)).map(t=>`<div class="card"><div class="row"><div><b>${esc(t.name)}</b><br><span class="mu">${esc(cname(t.courseId))} · الرسوم ${num(net(t))} د.ل${t.disc?' (بعد خصم '+num(t.disc)+')':''}</span>${t.paid?`<br><span class="ok">مدفوع ${num(t.amount)} · إيصال ${esc(t.receipt)}</span>`:''}</div><div class="acts">${t.paid?`<button data-act="rcpt" data-id="${t.id}">طباعة إيصال</button>`+(S.role==='manager'?`<button class="d" data-act="unpay" data-id="${t.id}">إلغاء الدفع</button>`:''):`<button class="p" data-act="pay" data-id="${t.id}">تسجيل الدفع</button>`}</div></div></div>`).join('');
+  return `<div class="acts" style="margin-top:10px">${[['all','الكل'],['unpaid','غير مدفوع'],['paid','مدفوع']].map(([k,l])=>`<button data-filter="${k}" class="${fl===k?'p':''}">${l}</button>`).join('')}</div>${list||'<div class="card mu">لا توجد سجلات</div>'}`;
+}
 
-    <!-- الكود البرمجي -->
-    <script>
-        // رابط جوجل فورم (عندما يكون جاهزاً ضعه هنا)
-        const SCRIPT_URL = ''; 
 
-        // بيانات تجريبية (تظهر دائماً حتى لو لم تضع رابط جوجل لكي لا تكون الصفحة فارغة)
-        const fallbackData = [
-            { "الاسم": "أحمد محمد محمود", "رقم الهاتف": "0912345678", "الدورة": "صيانة الهواتف" },
-            { "الاسم": "فاطمة علي سعيد", "رقم الهاتف": "0929876543", "الدورة": "التسويق الرقمي" },
-            { "الاسم": "سالم عبدالسلام", "رقم الهاتف": "0911112222", "الدورة": "اللغة الإنجليزية - المستوى الأول" }
-        ];
+function vStaff(){
+  const ids=Object.keys(S.join).filter(i=>i!==S.id);
+  const rows=ids.map(i=>{const r=(S.roles[i]||{}).role||'';
+    return `<div class="card row"><b>${esc(S.names[i]||'مستخدم')}</b><select data-staff="${i}" style="width:auto"><option value="">بدون صلاحية</option><option value="secretary" ${r==='secretary'?'selected':''}>سكرتارية</option><option value="accountant" ${r==='accountant'?'selected':''}>محاسب</option></select></div>`}).join('');
+  return `<div class="card mu">شارك الرابط مع الموظفين كـ <b>Contributor</b> (مساهم)، ثم يظهرون هنا وتحدد دور كل واحد.<br>ملاحظة: الأدوار تتحكم في ما يظهر للموظف في الواجهة، وليست حماية صارمة على مستوى قاعدة البيانات.</div>${rows||'<div class="card mu">لم يدخل أي موظف بعد</div>'}<div class="card"><b>النسخ الاحتياطي</b><div class="acts" style="margin:8px 0"><button data-act="backup">تنزيل نسخة احتياطية</button></div><label>استرجاع من ملف نسخة</label><input type="file" id="rf" accept=".json"></div>`;
+}
 
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchData();
-        });
+const net=t=>Math.max(0,cfee(t.courseId)-Number(t.disc||0));
+const cnt=id=>S.trainees.filter(t=>t.courseId===id&&!t.wait).length;
+const wc=id=>S.trainees.filter(t=>t.courseId===id&&t.wait).length;
+const full=id=>{const c=S.courses.find(x=>x.id===id);return !!(c&&c.seats>0&&cnt(id)>=c.seats)};
+function alerts(){
+  const td=new Date().toISOString().slice(0,10),lim=new Date(Date.now()+7*864e5).toISOString().slice(0,10);
+  const soon=S.courses.filter(c=>c.start&&c.start>=td&&c.start<=lim);
+  const run=S.courses.filter(c=>c.start&&c.start<=lim&&(!c.end||c.end>=td));
+  const unp=S.trainees.filter(t=>!t.paid&&!t.wait&&run.some(c=>c.id===t.courseId));
+  if(!soon.length&&!unp.length)return '';
+  return `<div class="card"><b class="warn">تنبيهات</b>${soon.map(c=>`<div>• تبدأ خلال أسبوع: ${esc(c.name)} (${esc(c.start)})</div>`).join('')}${unp.map(t=>`<div>• لم يدفع: ${esc(t.name)} — ${esc(cname(t.courseId))}</div>`).join('')}</div>`;
+}
+function vReq(){
+  const opts=id=>S.courses.map(c=>`<option value="${c.id}" ${c.id===id?'selected':''}>${esc(c.name)}</option>`).join('');
+  const list=[...S.requests].sort((a,b)=>(a.at||0)-(b.at||0)).map(r=>{const m=(S.courses.find(c=>c.name===r.course)||{}).id;
+    return `<div class="card"><b>${esc(r.name)}</b><br><span class="mu">${esc(r.phone)} · ${esc(r.work)} · طلب: ${esc(r.course||'—')}</span><div class="acts" style="margin-top:6px"><select id="rq_${r.id}" style="width:auto;margin:0"><option value="">اختر دورة</option>${opts(m)}</select><button class="p" data-act="acc" data-id="${r.id}">قبول</button><button class="d" data-act="del" data-id="${r.id}">${S.del===r.id?'تأكيد الرفض':'رفض'}</button></div></div>`}).join('');
+  return `<div class="card"><b>استيراد من Google Form</b><p class="mu">افتح Google Sheet الخاص بالردود، حدد الصفوف (بدون العناوين)، انسخها والصقها هنا. الأعمدة: الطابع الزمني، الاسم، الهاتف، المؤهل/العمل، الدورة. المكرر (بنفس الهاتف) يتم تجاوزه.</p><textarea id="imp" rows="5" style="width:100%;padding:9px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx)"></textarea><button class="p" data-act="imp" style="margin-top:6px">استيراد</button></div>${list||'<div class="card mu">لا توجد طلبات</div>'}`;
+}
+function vTrainers(){
+  const g={};S.courses.forEach(c=>{const k=c.trainer||'بدون مدرب';(g[k]=g[k]||[]).push(c)});
+  return Object.entries(g).map(([k,cs])=>{const tot=cs.reduce((a,c)=>a+Number(c.tpay||0),0),pd=cs.filter(c=>c.tpaid).reduce((a,c)=>a+Number(c.tpay||0),0);
+    return `<div class="card"><div class="row"><b>${esc(k)}</b><span>الإجمالي ${num(tot)} · <span class="ok">المصروف ${num(pd)}</span> · <span class="bad">المتبقي ${num(tot-pd)}</span></span></div>${cs.map(c=>`<div class="row" style="margin-top:6px"><span>${esc(c.name)} — ${num(c.tpay)} د.ل</span>${c.tpaid?`<span class="ok">مصروف</span>${S.role==='manager'?`<button data-act="tun" data-id="${c.id}">تراجع</button>`:''}`:`<button class="p" data-act="tpay" data-id="${c.id}">تسجيل صرف</button>`}</div>`).join('')}</div>`}).join('')||'<div class="card mu">لا توجد دورات</div>';
+}
+function vExp(){
+  const tot=S.expenses.reduce((a,x)=>a+Number(x.amount||0),0);
+  return `<div class="card"><b>إضافة مصروف</b><div class="two"><div><label>البيان</label><input id="x_t"></div><div><label>المبلغ (د.ل)</label><input id="x_a" type="number" inputmode="decimal"></div></div><button class="p" data-act="addExp">إضافة</button></div><div class="card"><b>إجمالي المصاريف: ${num(tot)} د.ل</b></div>${[...S.expenses].sort((a,b)=>(b.at||0)-(a.at||0)).map(x=>`<div class="card row"><span>${esc(x.title)} — <b>${num(x.amount)}</b> د.ل</span><button class="d" data-act="del" data-id="${x.id}">${S.del===x.id?'تأكيد الحذف':'حذف'}</button></div>`).join('')}`;
+}
+function overlap(a1,a2,b1,b2){return a1&&a2&&b1&&b2&&a1<=b2&&b1<=a2}
+async function w(fn,ok){try{await fn();S.msg=ok||''}catch(e){S.msg='تعذر الحفظ: '+(e.message||e.code||'خطأ')}render()}
 
-        async function fetchData() {
-            const tableBody = document.getElementById('students-table-body');
-            tableBody.innerHTML = '<tr><td colspan="5" class="text-center p-8 text-gray-500"><i class="fas fa-circle-notch fa-spin text-proBlue text-2xl mb-2"></i><br>جاري تحميل البيانات...</td></tr>';
-            
-            let dataToDisplay = [];
+document.addEventListener('input',e=>{if(e.target.id==='q'){S.q=e.target.value;const p=e.target.selectionStart;render();const q=$('#q');if(q){q.focus();q.setSelectionRange(p,p)}}});
+document.addEventListener('change',e=>{
+  const id=e.target.dataset&&e.target.dataset.staff;
+  if(id)w(()=>e.target.value?db.doc('roles/'+id).set({role:e.target.value}):db.doc('roles/'+id).delete(),'تم تحديث الصلاحية');
+});
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  if(b.id==='exp')return exportCsv();
+  if(b.id==='out')return signOut(auth).then(()=>location.reload());
+  if(b.dataset.tab){S.tab=b.dataset.tab;S.edit=null;S.del=null;S.msg='';form={};return render()}
+  if(b.dataset.filter){S.filter=b.dataset.filter;return render()}
+  const a=b.dataset.act,id=b.dataset.id,col={courses:'courses',exp:'expenses',req:'requests'}[S.tab]||'trainees';
+  if(a==='edit'){S.edit=id;S.msg='';return render()}
+  if(a==='cancel'){S.edit=null;form={};return render()}
+  if(a==='del'){if(S.del!==id){S.del=id;return render()}S.del=null;return w(()=>db.doc(col+'/'+id).delete(),'تم الحذف')}
+  if(a==='pay'){const t=S.trainees.find(x=>x.id===id);return w(()=>db.doc('trainees/'+id).update({paid:true,amount:net(t),paidAt:Date.now(),receipt:'R-'+String(Date.now()).slice(-6)}),'تم تسجيل الدفع')}
+  if(a==='unpay')return w(()=>db.doc('trainees/'+id).update({paid:false,amount:0,receipt:''}),'تم إلغاء الدفع');
+  if(a==='prom')return w(()=>db.doc('trainees/'+id).update({wait:false}),'تم نقله من قائمة الانتظار');
+  if(a==='tpay')return w(()=>db.doc('courses/'+id).update({tpaid:true}),'تم تسجيل صرف أجر المدرب');
+  if(a==='tun')return w(()=>db.doc('courses/'+id).update({tpaid:false}),'تم التراجع');
+  if(a==='addExp'){const ti=$('#x_t').value.trim(),am=Number($('#x_a').value||0);if(!ti||!am){S.msg='البيان والمبلغ مطلوبان';return render()}return w(()=>db.collection('expenses').add({title:ti,amount:am,at:Date.now()}),'تمت إضافة المصروف')}
+  if(a==='backup'){const o={courses:S.courses,trainees:S.trainees,expenses:S.expenses,requests:S.requests,at:Date.now()};return dl&&dl.save({filename:'pro-academy-backup.json',data:JSON.stringify(o)}).catch(()=>{})}
+  if(a==='rcpt'){const t=S.trainees.find(x=>x.id===id);if(!dl)return;const h=`<!DOCTYPE html><html lang="ar" dir="rtl"><meta charset="utf-8"><title>إيصال</title><body style="font-family:Tahoma,Arial;max-width:480px;margin:30px auto;border:2px solid #1f5eff;padding:24px"><h2 style="text-align:center;margin:0">Pro Academy</h2><p style="text-align:center;margin:4px 0 18px">إيصال استلام رسوم</p><p>رقم الإيصال: <b>${esc(t.receipt)}</b></p><p>التاريخ: <b>${new Date(t.paidAt||Date.now()).toLocaleDateString('en-GB')}</b></p><p>استلمنا من: <b>${esc(t.name)}</b></p><p>عن دورة: <b>${esc(cname(t.courseId))}</b></p><p>المبلغ: <b>${num(t.amount)} دينار ليبي</b>${t.disc?' (بعد خصم '+num(t.disc)+')':''}</p><p style="margin-top:40px">توقيع المحاسب: ____________ &nbsp;&nbsp;&nbsp; الختم</p></body>`;return dl.save({filename:'receipt-'+t.receipt+'.html',data:h}).catch(()=>{})}
+  if(a==='imp'){
+    const ex=new Set([...S.requests,...S.trainees].map(x=>(x.phone||'').replace(/\D/g,'')));
+    const clash=S.courses.find(c=>c.id!==S.edit&&overlap(c.start,c.end,d.start,d.end)&&overlap(c.from,c.to,d.from,d.to)&&((d.hall&&c.hall===d.hall)||(d.trainer&&c.trainer===d.trainer)));
+    if(clash){S.msg='تعارض مع دورة «'+clash.name+'»: نفس القاعة أو المدرب في نفس الوقت';return render()}
+    const ed=S.edit;S.edit=null;form={};
+    return w(()=>ed?db.doc('courses/'+ed).update(d):db.collection('courses').add(d),'تم الحفظ');
+  }
+});
 
-            try {
-                if(SCRIPT_URL !== '') {
-                    const response = await fetch(SCRIPT_URL);
-                    dataToDisplay = await response.json();
-                } else {
-                    // استخدام البيانات التجريبية إذا كان الرابط فارغاً
-                    dataToDisplay = fallbackData;
-                }
-                
-                renderTable(dataToDisplay);
-            } catch (error) {
-                console.warn('تعذر جلب البيانات من جوجل، سيتم عرض البيانات التجريبية.');
-                renderTable(fallbackData);
-            }
-        }
-
-        function renderTable(data) {
-            const tableBody = document.getElementById('students-table-body');
-            tableBody.innerHTML = ''; 
-
-            data.forEach((student) => {
-                const tr = document.createElement('tr');
-                tr.className = "hover:bg-blue-50 transition-colors";
-                
-                // البحث عن المفاتيح باختلاف المسميات
-                const studentName = student['الاسم الثلاثي'] || student['الاسم'] || student['Name'] || '-';
-                const studentPhone = student['رقم الهاتف'] || student['Phone'] || '-';
-                const studentCourse = student['اسم الدورة'] || student['الدورة'] || student['Course'] || '-';
-
-                tr.innerHTML = `
-                    <td class="p-4 font-medium text-gray-800 border-b">${studentName}</td>
-                    <td class="p-4 text-gray-600 border-b" dir="ltr">${studentPhone}</td>
-                    <td class="p-4 border-b">
-                        <span class="bg-proBlue bg-opacity-10 text-proBlue px-3 py-1 rounded-full text-sm font-bold">${studentCourse}</span>
-                    </td>
-                    <td class="p-4 border-b">
-                        <span class="text-red-500 text-sm font-bold"><i class="fas fa-times-circle ml-1"></i>غير مدفوع</span>
-                    </td>
-                    <td class="p-4 border-b text-center">
-                        <button onclick="printReceipt('${studentName}', '${studentCourse}')" 
-                                class="bg-proGold hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded shadow-sm text-sm transition-transform transform hover:scale-105">
-                            <i class="fas fa-print ml-2"></i> إصدار فاتورة
-                        </button>
-                    </td>
-                `;
-                tableBody.appendChild(tr);
-            });
-        }
-
-        function printReceipt(name, course) {
-            // توليد رقم إيصال عشوائي وتاريخ اليوم
-            document.getElementById('r-number').innerText = Math.floor(Math.random() * 10000) + 1000;
-            
-            const today = new Date();
-            document.getElementById('r-date').innerText = today.toLocaleDateString('ar-LY');
-
-            // تعبئة البيانات
-            document.getElementById('r-name').innerText = name;
-            document.getElementById('r-course').innerText = course;
-            
-            // الطباعة
-            window.print();
-        }
-    </script>
+async function exportCsv(){
+  if(!dl)return;
+  const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
+  const rows=[['الاسم','الهاتف','المؤهل/العمل','الدورة','الرسوم','الحالة','المبلغ المدفوع','رقم الإيصال'].map(q).join(',')];
+  S.trainees.forEach(t=>rows.push([t.name,t.phone,t.work,cname(t.courseId),cfee(t.courseId),t.paid?'مدفوع':'غير مدفوع',t.amount||0,t.receipt||''].map(q).join(',')));
+  try{await dl.save({filename:'pro-academy-trainees.csv',data:'\ufeff'+rows.join('\n')})}catch(e){}
+}
+document.addEventListener('change',async e=>{if(e.target.id!=='rf'||!e.target.files[0])return;
+  try{const o=JSON.parse(await e.target.files[0].text());let n=0;
+    for(const k of['courses','trainees','expenses','requests'])for(const x of(o[k]||[])){const{id,...d}=x;await db.doc(k+'/'+id).set(d);n++}
+    S.msg='تم استرجاع '+n+' سجل'}catch(err){S.msg='ملف النسخة غير صالح أو فشل الاسترجاع'}render()});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.target.id==='l_p'||e.target.id==='l_e')){const b=document.querySelector('[data-act=login]');b&&b.click()}});
+init();
+</script>
 </body>
 </html>
