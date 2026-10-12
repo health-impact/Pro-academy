@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منظومة برو أكاديمي | Pro Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- إعداد ألوان الهوية البصرية الخاصة بالشعار -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        proBlue: '#2A4356', // لون الكاب والجزء الأيسر من الشعار
+                        proGreen: '#739B81', // لون السهم والجزء الأيمن
+                        proGold: '#C5A059' // لون الكتاب المفتوح
+                    },
+                    fontFamily: {
+                        sans: ['Tajawal', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background-color: #f3f4f6; }
+        /* إعدادات الطباعة للفاتورة فقط */
+        @media print {
+            body * { visibility: hidden; }
+            #receipt-section, #receipt-section * { visibility: visible; }
+            #receipt-section { 
+                position: absolute; 
+                left: 50%; 
+                top: 20px; 
+                transform: translateX(-50%);
+                width: 90%; 
+                max-width: 600px;
+                border: 2px solid #2A4356;
+                padding: 30px;
+                background: white;
+            }
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="flex h-screen overflow-hidden">
+        
+        <!-- القائمة الجانبية (Sidebar) -->
+        <aside class="w-64 bg-proBlue text-white flex flex-col hidden md:flex shadow-2xl">
+            <div class="h-20 flex items-center justify-center border-b border-gray-600 p-4 bg-white">
+                <!-- مكان الشعار -->
+                <img src="logo.png" alt="Pro Academy" class="h-16 object-contain" onerror="this.outerHTML='<h1 class=\'text-2xl font-bold text-proBlue\'>PRO ACADEMY</h1>'">
+            </div>
+            
+            <nav class="flex-1 px-4 py-6 space-y-2">
+                <a href="#" class="flex items-center px-4 py-3 bg-proGreen bg-opacity-30 text-white rounded-lg border-r-4 border-proGold font-bold">
+                    <i class="fas fa-home ml-3 w-5"></i> لوحة القيادة
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-gray-300 hover:bg-proBlue hover:text-white rounded-lg transition-colors">
+                    <i class="fas fa-users ml-3 w-5"></i> المتدربين
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-gray-300 hover:bg-proBlue hover:text-white rounded-lg transition-colors">
+                    <i class="fas fa-book ml-3 w-5"></i> الدورات
+                </a>
+                <a href="#" class="flex items-center px-4 py-3 text-gray-300 hover:bg-proBlue hover:text-white rounded-lg transition-colors">
+                    <i class="fas fa-file-invoice-dollar ml-3 w-5"></i> المالية
+                </a>
+            </nav>
+            <div class="p-4 text-xs text-center text-gray-400 border-t border-gray-700">
+                إصدار 1.0.0
+            </div>
+        </aside>
+
+        <!-- المحتوى الرئيسي (Main Content) -->
+        <main class="flex-1 flex flex-col h-screen overflow-y-auto">
+            
+            <!-- الشريط العلوي -->
+            <header class="h-20 bg-white shadow-sm flex items-center justify-between px-8 z-10">
+                <h2 class="text-2xl font-bold text-proBlue">مرحباً بك في لوحة التحكم</h2>
+                <div class="flex items-center gap-4">
+                    <button class="text-gray-500 hover:text-proGold"><i class="fas fa-bell text-xl"></i></button>
+                    <div class="w-10 h-10 rounded-full bg-proGold flex items-center justify-center text-white font-bold">
+                        أ
+                    </div>
+                </div>
+            </header>
+
+            <!-- منطقة المحتوى -->
+            <div class="p-8">
+                
+                <!-- بطاقات الإحصائيات -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white rounded-xl shadow-sm p-6 border-b-4 border-proBlue flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500 mb-1">إجمالي المتدربين</p>
+                            <h3 class="text-3xl font-bold text-proBlue">124</h3>
+                        </div>
+                        <div class="w-12 h-12 bg-blue-100 text-proBlue rounded-full flex items-center justify-center text-xl">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-sm p-6 border-b-4 border-proGreen flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500 mb-1">الدورات النشطة</p>
+                            <h3 class="text-3xl font-bold text-proGreen">5</h3>
+                        </div>
+                        <div class="w-12 h-12 bg-green-100 text-proGreen rounded-full flex items-center justify-center text-xl">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm p-6 border-b-4 border-proGold flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500 mb-1">طلبات التسجيل الجديدة</p>
+                            <h3 class="text-3xl font-bold text-proGold">12</h3>
+                        </div>
+                        <div class="w-12 h-12 bg-yellow-100 text-proGold rounded-full flex items-center justify-center text-xl">
+                            <i class="fas fa-clipboard-list"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- جدول التسجيلات -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                        <h3 class="text-lg font-bold text-proBlue"><i class="fas fa-table ml-2"></i>أحدث المسجلين (من نماذج جوجل)</h3>
+                        <button onclick="fetchData()" class="text-proGreen hover:text-proBlue text-sm font-bold flex items-center gap-2">
+                            <i class="fas fa-sync-alt"></i> تحديث البيانات
+                        </button>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-right">
+                            <thead class="bg-gray-100 text-gray-600">
+                                <tr>
+                                    <th class="p-4 font-bold border-b">الاسم الثلاثي</th>
+                                    <th class="p-4 font-bold border-b">رقم الهاتف</th>
+                                    <th class="p-4 font-bold border-b">الدورة المطلوبة</th>
+                                    <th class="p-4 font-bold border-b">حالة الدفع</th>
+                                    <th class="p-4 font-bold border-b text-center">الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="students-table-body" class="divide-y divide-gray-100">
+                                <!-- سيتم تعبئة البيانات هنا -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- نموذج الفاتورة المخفي (يظهر عند الطباعة فقط) -->
+    <div id="receipt-section" class="hidden font-sans">
+        <div class="text-center border-b-2 border-proGold pb-4 mb-6">
+            <h1 class="text-3xl font-bold text-proBlue mb-1">PRO ACADEMY</h1>
+            <h2 class="text-lg text-proGreen font-bold tracking-widest">للتدريب والتطوير</h2>
+        </div>
+        
+        <div class="flex justify-between mb-8 text-sm">
+            <div><span class="font-bold">رقم الإيصال:</span> #<span id="r-number"></span></div>
+            <div><span class="font-bold">التاريخ:</span> <span id="r-date"></span></div>
+        </div>
+
+        <h3 class="text-2xl font-bold mb-6 text-center text-gray-800 bg-gray-100 py-2">سند قبض</h3>
+        
+        <div class="space-y-4 text-lg leading-relaxed">
+            <p><span class="font-bold text-proBlue">استلمنا من السيد/ة: </span> <span id="r-name" class="border-b border-dotted border-gray-400 pb-1 px-4 min-w-[200px] inline-block"></span></p>
+            <p><span class="font-bold text-proBlue">مبلغ وقدره: </span> <input type="text" placeholder="اكتب المبلغ..." class="border-b border-dotted border-gray-400 pb-1 px-4 min-w-[200px] outline-none text-lg"></p>
+            <p><span class="font-bold text-proBlue">وذلك عن دورة: </span> <span id="r-course" class="border-b border-dotted border-gray-400 pb-1 px-4 min-w-[200px] inline-block"></span></p>
+        </div>
+        
+        <div class="mt-16 flex justify-between text-lg font-bold border-t border-gray-200 pt-6">
+            <div class="text-center">
+                <p class="mb-8">توقيع المستلم</p>
+                <p>.......................</p>
+            </div>
+            <div class="text-center">
+                <p class="mb-8">الختم</p>
+                <p>.......................</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- الكود البرمجي -->
+    <script>
+        // رابط جوجل فورم (عندما يكون جاهزاً ضعه هنا)
+        const SCRIPT_URL = ''; 
+
+        // بيانات تجريبية (تظهر دائماً حتى لو لم تضع رابط جوجل لكي لا تكون الصفحة فارغة)
+        const fallbackData = [
+            { "الاسم": "أحمد محمد محمود", "رقم الهاتف": "0912345678", "الدورة": "صيانة الهواتف" },
+            { "الاسم": "فاطمة علي سعيد", "رقم الهاتف": "0929876543", "الدورة": "التسويق الرقمي" },
+            { "الاسم": "سالم عبدالسلام", "رقم الهاتف": "0911112222", "الدورة": "اللغة الإنجليزية - المستوى الأول" }
+        ];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchData();
+        });
+
+        async function fetchData() {
+            const tableBody = document.getElementById('students-table-body');
+            tableBody.innerHTML = '<tr><td colspan="5" class="text-center p-8 text-gray-500"><i class="fas fa-circle-notch fa-spin text-proBlue text-2xl mb-2"></i><br>جاري تحميل البيانات...</td></tr>';
+            
+            let dataToDisplay = [];
+
+            try {
+                if(SCRIPT_URL !== '') {
+                    const response = await fetch(SCRIPT_URL);
+                    dataToDisplay = await response.json();
+                } else {
+                    // استخدام البيانات التجريبية إذا كان الرابط فارغاً
+                    dataToDisplay = fallbackData;
+                }
+                
+                renderTable(dataToDisplay);
+            } catch (error) {
+                console.warn('تعذر جلب البيانات من جوجل، سيتم عرض البيانات التجريبية.');
+                renderTable(fallbackData);
+            }
+        }
+
+        function renderTable(data) {
+            const tableBody = document.getElementById('students-table-body');
+            tableBody.innerHTML = ''; 
+
+            data.forEach((student) => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-blue-50 transition-colors";
+                
+                // البحث عن المفاتيح باختلاف المسميات
+                const studentName = student['الاسم الثلاثي'] || student['الاسم'] || student['Name'] || '-';
+                const studentPhone = student['رقم الهاتف'] || student['Phone'] || '-';
+                const studentCourse = student['اسم الدورة'] || student['الدورة'] || student['Course'] || '-';
+
+                tr.innerHTML = `
+                    <td class="p-4 font-medium text-gray-800 border-b">${studentName}</td>
+                    <td class="p-4 text-gray-600 border-b" dir="ltr">${studentPhone}</td>
+                    <td class="p-4 border-b">
+                        <span class="bg-proBlue bg-opacity-10 text-proBlue px-3 py-1 rounded-full text-sm font-bold">${studentCourse}</span>
+                    </td>
+                    <td class="p-4 border-b">
+                        <span class="text-red-500 text-sm font-bold"><i class="fas fa-times-circle ml-1"></i>غير مدفوع</span>
+                    </td>
+                    <td class="p-4 border-b text-center">
+                        <button onclick="printReceipt('${studentName}', '${studentCourse}')" 
+                                class="bg-proGold hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded shadow-sm text-sm transition-transform transform hover:scale-105">
+                            <i class="fas fa-print ml-2"></i> إصدار فاتورة
+                        </button>
+                    </td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        function printReceipt(name, course) {
+            // توليد رقم إيصال عشوائي وتاريخ اليوم
+            document.getElementById('r-number').innerText = Math.floor(Math.random() * 10000) + 1000;
+            
+            const today = new Date();
+            document.getElementById('r-date').innerText = today.toLocaleDateString('ar-LY');
+
+            // تعبئة البيانات
+            document.getElementById('r-name').innerText = name;
+            document.getElementById('r-course').innerText = course;
+            
+            // الطباعة
+            window.print();
+        }
+    </script>
+</body>
+</html>
