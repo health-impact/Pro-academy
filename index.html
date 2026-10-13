@@ -44,13 +44,6 @@ button:active{transform:scale(.96)}
 button.p,nav button.on{background:linear-gradient(135deg,#1f5eff,#5b7dff)}
 button.p{box-shadow:0 3px 10px #1f5eff44}
 button.d:hover{background:#c2362b18}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--pr);box-shadow:0 0 0 3px #1f5eff26}
-.card{transition:.15s;border-inline-start:4px solid var(--pr)}
-.card:hover{box-shadow:0 6px 18px #0001;transform:translateY(-1px)}
-.stat{border-top:4px solid var(--c,#1f5eff);transition:.15s}.stat:hover{transform:translateY(-2px);box-shadow:0 6px 16px #0001}
-.stat::before{display:block;font-size:24px}.stat b{font-size:22px}
-.grid .stat:nth-child(1){--c:#1f5eff}.grid .stat:nth-child(1)::before{content:"👥"}
-.grid .stat:nth-child(2){--c:#7a3cff}.grid .stat:nth-child(2)::before{content:"📚"}
 .grid .stat:nth-child(3){--c:#12805c}.grid .stat:nth-child(3)::before{content:"💰"}
 .grid .stat:nth-child(4){--c:#c2362b}.grid .stat:nth-child(4)::before{content:"⏳"}
 .grid .stat:nth-child(5){--c:#a86400}.grid .stat:nth-child(5)::before{content:"🧾"}
@@ -85,12 +78,12 @@ import {getFirestore,collection,doc,addDoc,setDoc,updateDoc,deleteDoc,onSnapshot
 
 /* ===== إعدادات Firebase: عدّلها حسب ملف SETUP.md ===== */
 const firebaseConfig={
-  apiKey:"ضع_apiKey_هنا",
-  authDomain:"ضع_authDomain_هنا",
-  projectId:"ضع_projectId_هنا",
-  appId:"ضع_appId_هنا"
+  apiKey:"AIzaSyBSwtDzIzorJYCOAr--YuPtYO-nrFEjOwA",
+  authDomain:"pro-academy-48dca.firebaseapp.com",
+  projectId:"pro-academy-48dca",
+  appId:"1:474320172121:web:5048788fbe96a9ca86ad48"
 };
-const MANAGER_EMAIL="ضع_ايميل_المدير_هنا"; /* بأحرف صغيرة، ونفس الإيميل في قواعد Firestore */
+const MANAGER_EMAIL="mohamedjalalmody@gmail.com"; /* بأحرف صغيرة، ونفس الإيميل في قواعد Firestore */
 /* ======================================================= */
 
 let app=null,auth=null,fs=null;
@@ -103,18 +96,6 @@ const dl={save:({filename,data})=>{const a=document.createElement('a');a.href=UR
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const num=n=>Number(n||0).toLocaleString('en-US');
-const ROLE={manager:'مدير',secretary:'سكرتارية',accountant:'محاسب'};
-const TABS={manager:['dash','trainees','req','courses','pay','trainers','exp','staff'],secretary:['trainees','req','courses'],accountant:['dash','pay','trainers','exp']};
-const TL={dash:'التقارير',trainees:'المتدربون',req:'طلبات التسجيل',courses:'الدورات والجدولة',pay:'المدفوعات',trainers:'المدربون',exp:'المصاريف',staff:'الموظفون والنسخ'};
-const S={courses:[],trainees:[],requests:[],expenses:[],roles:{},join:{},names:{},id:null,name:'',role:null,tab:'',q:'',edit:null,del:null,msg:'',filter:'all',err:''};
-let form={};
-
-function bind(path,key){
-  db.collection(path).onSnapshot(s=>{
-    if(key==='roles'||key==='join'){S[key]={};s.docs.forEach(d=>S[key][d.id]=d.data())}
-    else S[key]=s.docs.map(d=>({id:d.id,...d.data()}));
-    if(key==='join')resolveNames();
-    render();
   },e=>{S.err='تعذر تحميل البيانات ('+path+')';render()});
 }
 async function resolveNames(){
@@ -127,6 +108,7 @@ function showLogin(){
   $('#nav').innerHTML='';$('#out').style.display='none';$('#exp').style.display='none';
   $('#app').innerHTML=`<div class="card" style="max-width:380px;margin:30px auto"><h3 style="margin-top:0">🔐 تسجيل الدخول</h3><label>الإيميل</label><input id="l_e" type="email" dir="ltr" autocomplete="username"><label>كلمة السر</label><input id="l_p" type="password" dir="ltr" autocomplete="current-password"><button class="p" data-act="login" style="width:100%">دخول</button><p id="l_m" class="bad"></p></div>`;
 }
+
 function init(){
   if(firebaseConfig.apiKey.startsWith('ضع')){$('#app').innerHTML='<div class="card warn"><b>لم يتم ضبط Firebase بعد.</b><p>افتح ملف index.html وضع بيانات مشروعك في أعلى السكربت (راجع SETUP.md).</p></div>';return}
   app=initializeApp(firebaseConfig);auth=getAuth(app);fs=getFirestore(app);
@@ -174,35 +156,11 @@ function vTrainees(){
   const e=S.edit&&S.tab==='trainees'?S.trainees.find(t=>t.id===S.edit):null;
   const f=e||form;
   const opts=S.courses.map(c=>`<option value="${c.id}" ${f.courseId===c.id?'selected':''}>${esc(c.name)}</option>`).join('');
-  const q=S.q.trim();
-  const list=S.trainees.filter(t=>!q||(t.name+' '+t.phone).includes(q)).sort((a,b)=>(b.at||0)-(a.at||0)).map(t=>`<div class="card"><div class="row"><div><b>${esc(t.name)}</b> ${t.wait?'<span class="tag warn">قائمة انتظار</span>':`<span class="tag ${t.paid?'ok':'warn'}">${t.paid?'مدفوع':'غير مدفوع'}</span>`}<br><span class="mu">${esc(t.phone)} · ${esc(t.work)}<br>${esc(cname(t.courseId))}</span></div><div class="acts">${t.wait?`<button class="p" data-act="prom" data-id="${t.id}">تفعيل</button>`:''}<button data-act="edit" data-id="${t.id}">تعديل</button><button class="d" data-act="del" data-id="${t.id}">${S.del===t.id?'تأكيد الحذف':'حذف'}</button></div></div></div>`).join('');
-  return `<div class="card"><b>${e?'تعديل متدرب':'تسجيل متدرب'}</b>
-  <label>الاسم</label><input id="f_name" value="${esc(f.name)}">
-  <div class="two"><div><label>الهاتف</label><input id="f_phone" inputmode="tel" value="${esc(f.phone)}"></div><div><label>المؤهل / العمل</label><input id="f_work" value="${esc(f.work)}"></div></div>
-  <label>خصم (د.ل)</label><input id="f_disc" type="number" inputmode="decimal" value="${esc(f.disc)}"><label>الدورة</label><select id="f_course"><option value="">اختر دورة</option>${opts}</select>
-  <div class="acts"><button class="p" data-act="saveT">${e?'حفظ التعديل':'تسجيل'}</button>${e?'<button data-act="cancel">إلغاء</button>':''}</div></div>
-  <input id="q" placeholder="بحث بالاسم أو الهاتف" value="${esc(S.q)}">${list||'<div class="card mu">لا يوجد متدربون</div>'}`;
-}
-
-function vCourses(){
-  const e=S.edit&&S.tab==='courses'?S.courses.find(t=>t.id===S.edit):null;
-  const f=e||form;
-  const list=S.courses.map(c=>`<div class="card"><div class="row"><div><b>${esc(c.name)}</b> <span class="tag">${num(c.fee)} د.ل</span><br><span class="mu">القاعة: ${esc(c.hall||'—')} · المدرب: ${esc(c.trainer||'—')}<br>${esc(c.start||'')} → ${esc(c.end||'')} · ${esc(c.from||'')}–${esc(c.to||'')}<br>المسجلون: ${cnt(c.id)}${c.seats?' / '+c.seats:''}${wc(c.id)?' · انتظار: '+wc(c.id):''}</span></div><div class="acts"><button data-act="edit" data-id="${c.id}">تعديل</button><button class="d" data-act="del" data-id="${c.id}">${S.del===c.id?'تأكيد الحذف':'حذف'}</button></div></div></div>`).join('');
-  return `<div class="card"><b>${e?'تعديل دورة':'إضافة دورة'}</b>
-  <label>اسم الدورة</label><input id="c_name" value="${esc(f.name)}">
-  <div class="two"><div><label>الرسوم (د.ل)</label><input id="c_fee" type="number" inputmode="decimal" value="${esc(f.fee)}"></div><div><label>القاعة</label><input id="c_hall" value="${esc(f.hall)}"></div></div>
-  <div class="two"><div><label>المدرب</label><input id="c_trainer" value="${esc(f.trainer)}"></div><div><label>أجر المدرب (د.ل)</label><input id="c_tpay" type="number" inputmode="decimal" value="${esc(f.tpay)}"></div></div><label>عدد المقاعد (0 = بدون سقف)</label><input id="c_seats" type="number" inputmode="numeric" value="${esc(f.seats)}">
-  <div class="two"><div><label>من تاريخ</label><input id="c_start" type="date" value="${esc(f.start)}"></div><div><label>إلى تاريخ</label><input id="c_end" type="date" value="${esc(f.end)}"></div></div>
-  <div class="two"><div><label>من الساعة</label><input id="c_from" type="time" value="${esc(f.from)}"></div><div><label>إلى الساعة</label><input id="c_to" type="time" value="${esc(f.to)}"></div></div>
-  <div class="acts"><button class="p" data-act="saveC">${e?'حفظ التعديل':'إضافة'}</button>${e?'<button data-act="cancel">إلغاء</button>':''}</div></div>${list||'<div class="card mu">لا توجد دورات</div>'}`;
-}
-
 function vPay(){
   const fl=S.filter;
   const list=S.trainees.filter(t=>!t.wait&&(fl==='all'||(fl==='paid')===!!t.paid)).map(t=>`<div class="card"><div class="row"><div><b>${esc(t.name)}</b><br><span class="mu">${esc(cname(t.courseId))} · الرسوم ${num(net(t))} د.ل${t.disc?' (بعد خصم '+num(t.disc)+')':''}</span>${t.paid?`<br><span class="ok">مدفوع ${num(t.amount)} · إيصال ${esc(t.receipt)}</span>`:''}</div><div class="acts">${t.paid?`<button data-act="rcpt" data-id="${t.id}">طباعة إيصال</button>`+(S.role==='manager'?`<button class="d" data-act="unpay" data-id="${t.id}">إلغاء الدفع</button>`:''):`<button class="p" data-act="pay" data-id="${t.id}">تسجيل الدفع</button>`}</div></div></div>`).join('');
   return `<div class="acts" style="margin-top:10px">${[['all','الكل'],['unpaid','غير مدفوع'],['paid','مدفوع']].map(([k,l])=>`<button data-filter="${k}" class="${fl===k?'p':''}">${l}</button>`).join('')}</div>${list||'<div class="card mu">لا توجد سجلات</div>'}`;
 }
-
 
 function vStaff(){
   const ids=Object.keys(S.join).filter(i=>i!==S.id);
@@ -227,27 +185,6 @@ function vReq(){
   const opts=id=>S.courses.map(c=>`<option value="${c.id}" ${c.id===id?'selected':''}>${esc(c.name)}</option>`).join('');
   const list=[...S.requests].sort((a,b)=>(a.at||0)-(b.at||0)).map(r=>{const m=(S.courses.find(c=>c.name===r.course)||{}).id;
     return `<div class="card"><b>${esc(r.name)}</b><br><span class="mu">${esc(r.phone)} · ${esc(r.work)} · طلب: ${esc(r.course||'—')}</span><div class="acts" style="margin-top:6px"><select id="rq_${r.id}" style="width:auto;margin:0"><option value="">اختر دورة</option>${opts(m)}</select><button class="p" data-act="acc" data-id="${r.id}">قبول</button><button class="d" data-act="del" data-id="${r.id}">${S.del===r.id?'تأكيد الرفض':'رفض'}</button></div></div>`}).join('');
-  return `<div class="card"><b>استيراد من Google Form</b><p class="mu">افتح Google Sheet الخاص بالردود، حدد الصفوف (بدون العناوين)، انسخها والصقها هنا. الأعمدة: الطابع الزمني، الاسم، الهاتف، المؤهل/العمل، الدورة. المكرر (بنفس الهاتف) يتم تجاوزه.</p><textarea id="imp" rows="5" style="width:100%;padding:9px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx)"></textarea><button class="p" data-act="imp" style="margin-top:6px">استيراد</button></div>${list||'<div class="card mu">لا توجد طلبات</div>'}`;
-}
-function vTrainers(){
-  const g={};S.courses.forEach(c=>{const k=c.trainer||'بدون مدرب';(g[k]=g[k]||[]).push(c)});
-  return Object.entries(g).map(([k,cs])=>{const tot=cs.reduce((a,c)=>a+Number(c.tpay||0),0),pd=cs.filter(c=>c.tpaid).reduce((a,c)=>a+Number(c.tpay||0),0);
-    return `<div class="card"><div class="row"><b>${esc(k)}</b><span>الإجمالي ${num(tot)} · <span class="ok">المصروف ${num(pd)}</span> · <span class="bad">المتبقي ${num(tot-pd)}</span></span></div>${cs.map(c=>`<div class="row" style="margin-top:6px"><span>${esc(c.name)} — ${num(c.tpay)} د.ل</span>${c.tpaid?`<span class="ok">مصروف</span>${S.role==='manager'?`<button data-act="tun" data-id="${c.id}">تراجع</button>`:''}`:`<button class="p" data-act="tpay" data-id="${c.id}">تسجيل صرف</button>`}</div>`).join('')}</div>`}).join('')||'<div class="card mu">لا توجد دورات</div>';
-}
-function vExp(){
-  const tot=S.expenses.reduce((a,x)=>a+Number(x.amount||0),0);
-  return `<div class="card"><b>إضافة مصروف</b><div class="two"><div><label>البيان</label><input id="x_t"></div><div><label>المبلغ (د.ل)</label><input id="x_a" type="number" inputmode="decimal"></div></div><button class="p" data-act="addExp">إضافة</button></div><div class="card"><b>إجمالي المصاريف: ${num(tot)} د.ل</b></div>${[...S.expenses].sort((a,b)=>(b.at||0)-(a.at||0)).map(x=>`<div class="card row"><span>${esc(x.title)} — <b>${num(x.amount)}</b> د.ل</span><button class="d" data-act="del" data-id="${x.id}">${S.del===x.id?'تأكيد الحذف':'حذف'}</button></div>`).join('')}`;
-}
-function overlap(a1,a2,b1,b2){return a1&&a2&&b1&&b2&&a1<=b2&&b1<=a2}
-async function w(fn,ok){try{await fn();S.msg=ok||''}catch(e){S.msg='تعذر الحفظ: '+(e.message||e.code||'خطأ')}render()}
-
-document.addEventListener('input',e=>{if(e.target.id==='q'){S.q=e.target.value;const p=e.target.selectionStart;render();const q=$('#q');if(q){q.focus();q.setSelectionRange(p,p)}}});
-document.addEventListener('change',e=>{
-  const id=e.target.dataset&&e.target.dataset.staff;
-  if(id)w(()=>e.target.value?db.doc('roles/'+id).set({role:e.target.value}):db.doc('roles/'+id).delete(),'تم تحديث الصلاحية');
-});
-document.addEventListener('click',e=>{
-  const b=e.target.closest('button');if(!b)return;
   if(b.id==='exp')return exportCsv();
   if(b.id==='out')return signOut(auth).then(()=>location.reload());
   if(b.dataset.tab){S.tab=b.dataset.tab;S.edit=null;S.del=null;S.msg='';form={};return render()}
@@ -266,13 +203,24 @@ document.addEventListener('click',e=>{
   if(a==='rcpt'){const t=S.trainees.find(x=>x.id===id);if(!dl)return;const h=`<!DOCTYPE html><html lang="ar" dir="rtl"><meta charset="utf-8"><title>إيصال</title><body style="font-family:Tahoma,Arial;max-width:480px;margin:30px auto;border:2px solid #1f5eff;padding:24px"><h2 style="text-align:center;margin:0">Pro Academy</h2><p style="text-align:center;margin:4px 0 18px">إيصال استلام رسوم</p><p>رقم الإيصال: <b>${esc(t.receipt)}</b></p><p>التاريخ: <b>${new Date(t.paidAt||Date.now()).toLocaleDateString('en-GB')}</b></p><p>استلمنا من: <b>${esc(t.name)}</b></p><p>عن دورة: <b>${esc(cname(t.courseId))}</b></p><p>المبلغ: <b>${num(t.amount)} دينار ليبي</b>${t.disc?' (بعد خصم '+num(t.disc)+')':''}</p><p style="margin-top:40px">توقيع المحاسب: ____________ &nbsp;&nbsp;&nbsp; الختم</p></body>`;return dl.save({filename:'receipt-'+t.receipt+'.html',data:h}).catch(()=>{})}
   if(a==='imp'){
     const ex=new Set([...S.requests,...S.trainees].map(x=>(x.phone||'').replace(/\D/g,'')));
+    const rows=$('#imp').value.split('\n').map(l=>l.split(l.includes('\t')?'\t':',').map(x=>x.trim().replace(/^"|"$/g,''))).filter(r=>r.length>=3&&r.join('').trim());
+    const jobs=[];
+    const d={name:$('#f_name').value.trim(),phone:$('#f_phone').value.trim(),work:$('#f_work').value.trim(),courseId:$('#f_course').value,disc:Number($('#f_disc').value||0)};
+    if(!d.name||!d.courseId){S.msg='الاسم والدورة مطلوبان';form=d;return render()}
+    const ed=S.edit;S.edit=null;form={};
+    return w(()=>ed?db.doc('trainees/'+ed).update(d):db.collection('trainees').add({...d,paid:false,wait:full(d.courseId),at:Date.now()}),'تم الحفظ');
+  }
+  if(a==='saveC'){
+    const g=k=>$('#c_'+k).value.trim();
+    const d={name:g('name'),fee:Number(g('fee')||0),seats:Number(g('seats')||0),tpay:Number(g('tpay')||0),hall:g('hall'),trainer:g('trainer'),start:g('start'),end:g('end'),from:g('from'),to:g('to')};
+    form=d;
+    if(!d.name){S.msg='اسم الدورة مطلوب';return render()}
     const clash=S.courses.find(c=>c.id!==S.edit&&overlap(c.start,c.end,d.start,d.end)&&overlap(c.from,c.to,d.from,d.to)&&((d.hall&&c.hall===d.hall)||(d.trainer&&c.trainer===d.trainer)));
     if(clash){S.msg='تعارض مع دورة «'+clash.name+'»: نفس القاعة أو المدرب في نفس الوقت';return render()}
     const ed=S.edit;S.edit=null;form={};
     return w(()=>ed?db.doc('courses/'+ed).update(d):db.collection('courses').add(d),'تم الحفظ');
   }
 });
-
 async function exportCsv(){
   if(!dl)return;
   const q=v=>'"'+String(v??'').replace(/"/g,'""')+'"';
